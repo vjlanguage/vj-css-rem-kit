@@ -1,0 +1,1212 @@
+/* author : vjlang team */
+/* ════════════════════════════════════════════════════════════════
+   UNIVERSAL DESIGN SYSTEM — Typography & Spatial Tokens
+   ════════════════════════════════════════════════════════════════
+
+   Coverage
+   ────────
+   ① Apple Watch / Wear OS        ~136–198px wide
+   ② Phone small                  360px  (iPhone SE 3rd gen, Android sm)
+   ③ Phone standard               390px  (iPhone 14/15, Pixel 8)
+   ④ Phone large                  430px  (iPhone Pro Max, Android XL)
+   ⑤ Foldable / large phone       600px  (Galaxy Z Fold half-open)
+   ⑥ Tablet small                 768px  (iPad mini, Android 7")
+   ⑦ Tablet standard              840px  (iPad Air, Pixel Tablet)
+   ⑧ Tablet large / iPad Pro      1024px (iPad Pro 12.9", ChromeOS)
+   ⑨ Desktop / Mac                1280px (MacBook, Windows laptop)
+   ⑩ Wide desktop                 1440px (iMac, large monitors)
+   ⑪ Ultrawide / TV               1920px (4K screens, smart TV browsers)
+
+   Root font-size progression (html)
+   ────────────────────────────────────────────────────────────────
+   Watch          →  75%      →  1rem = 12px
+   Phone small    →  87.5%    →  1rem = 14px
+   Phone standard →  93.75%   →  1rem = 15px
+   Phone large    →  100%     →  1rem = 16px   ← classic web base
+   Foldable       →  106.25%  →  1rem = 17px
+   Tablet small   →  112.5%   →  1rem = 18px   (iPad mini / 7" Android)
+   Tablet std     →  112.5%   →  1rem = 18px   (same tier)
+   Tablet large   →  118.75%  →  1rem = 19px
+   Desktop        →  125%     →  1rem = 20px
+   Wide           →  131.25%  →  1rem = 21px
+   Ultrawide/TV   →  150%     →  1rem = 24px
+
+   Design principles
+   ─────────────────
+   • ONE number changes per breakpoint (html font-size).
+     Everything else is derived automatically via rem.
+   • % root preserves browser/OS accessibility font preferences
+     (mirrors sp on Android, Dynamic Type on iOS).
+   • Rem values are fixed ratios — computed px scales per device.
+   • Spatial tokens (spacing, radius, target) use the same rem
+     scale so layout breathes proportionally with text.
+   • Platform font stacks resolve natively — no web font needed
+     for SF Pro (Apple) or Roboto (Android).
+
+   File structure
+   ──────────────
+   §1   Root font-size breakpoints
+   §2   Font stacks
+   §3   Type scale tokens
+   §4   Line-height tokens
+   §5   Letter-spacing tokens
+   §6   Font-weight tokens
+   §7   Spatial tokens  (spacing, radius, touch targets)
+   §8   Elevation / shadow tokens
+   §9   Z-index tokens
+   §10  Motion / transition tokens
+   §11  Semantic role classes
+   §12  HTML element defaults
+   §13  Utility modifiers
+   §14  Accessibility media queries
+   §15  Quick-reference table (comments)
+
+   ════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   §1  ROOT FONT-SIZE BREAKPOINTS
+   ───────────────────────────────────────────────────────────── */
+
+/*
+   Start tiny for watch/wearable contexts.
+   Each step up adds ~6.25% (1px at 16px base).
+   Tablet small and standard share the same root —
+   the layout grid widens but type stays stable.
+*/
+
+/* ① Watch / wearable ≤ 200px */
+@media (max-width: 200px) {
+  html { font-size: 75%; }        /* 1rem = 12px */
+}
+
+/* ② Phone small — 201–374px (iPhone SE, small Android) */
+@media (min-width: 201px) and (max-width: 374px) {
+  html { font-size: 87.5%; }      /* 1rem = 14px */
+}
+
+/* ③ Phone standard — 375–389px (iPhone 14/15, Pixel 8) */
+@media (min-width: 375px) and (max-width: 389px) {
+  html { font-size: 93.75%; }     /* 1rem = 15px */
+}
+
+/* ④ Phone large — 390–599px (iPhone Pro Max, Android XL, base) */
+@media (min-width: 390px) and (max-width: 599px) {
+  html { font-size: 100%; }       /* 1rem = 16px */
+}
+
+/* ⑤ Foldable / large phone — 600–767px (Z Fold half-open) */
+@media (min-width: 600px) and (max-width: 767px) {
+  html { font-size: 106.25%; }    /* 1rem = 17px */
+}
+
+/* ⑥⑦ Tablet small + standard — 768–1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  html { font-size: 112.5%; }     /* 1rem = 18px */
+}
+
+/* ⑧ Tablet large / iPad Pro / ChromeOS — 1024–1279px */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  html { font-size: 118.75%; }    /* 1rem = 19px */
+}
+
+/* ⑨ Desktop / Mac / laptop — 1280–1439px */
+@media (min-width: 1280px) and (max-width: 1439px) {
+  html { font-size: 125%; }       /* 1rem = 20px */
+}
+
+/* ⑩ Wide desktop / iMac — 1440–1919px */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  html { font-size: 131.25%; }    /* 1rem = 21px */
+}
+
+/* ⑪ Ultrawide / 4K / TV — 1920px+ */
+@media (min-width: 1920px) {
+  html { font-size: 150%; }       /* 1rem = 24px */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §2  FONT STACKS
+   ─────────────────────────────────────────────────────────────
+   Resolution order per platform:
+   ┌─────────────────────┬────────────────────────────────────┐
+   │ Platform            │ Font resolved                      │
+   ├─────────────────────┼────────────────────────────────────┤
+   │ iPhone / iPad / Mac │ SF Pro Text / SF Pro Display       │
+   │ Apple Watch         │ SF Compact                         │
+   │ Android phone/tab   │ Roboto or Google Sans              │
+   │ Wear OS             │ Roboto Condensed                   │
+   │ ChromeOS            │ Google Sans / Roboto               │
+   │ Windows             │ Segoe UI (via system-ui)           │
+   │ Linux               │ Ubuntu / Cantarell / Noto Sans     │
+   │ Samsung (One UI)    │ Samsung One (via system-ui)        │
+   └─────────────────────┴────────────────────────────────────┘
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+
+  /* Body / UI text */
+  --font-sans:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "Roboto",
+    "Google Sans",
+    "Noto Sans",
+    "Segoe UI",
+    "Ubuntu",
+    "Cantarell",
+    Arial,
+    system-ui,
+    sans-serif;
+
+  /* Display / hero — optical size optimised for large sizes */
+  --font-display:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "Google Sans Display",
+    "Roboto",
+    "Segoe UI Display",
+    system-ui,
+    sans-serif;
+
+  /* Compact / wearable — narrow letterforms */
+  --font-compact:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Compact Text",
+    "Roboto Condensed",
+    "Noto Sans",
+    system-ui,
+    sans-serif;
+
+  /* Monospaced — code, metrics, data */
+  --font-mono:
+    "SF Mono",
+    "Roboto Mono",
+    "Cascadia Code",
+    "Fira Code",
+    "JetBrains Mono",
+    ui-monospace,
+    "Courier New",
+    monospace;
+
+  /* Rounded — friendly UI accents (iOS rounded variant) */
+  --font-rounded:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Rounded",
+    "Google Sans",
+    system-ui,
+    sans-serif;
+
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §3  TYPE SCALE TOKENS
+   ─────────────────────────────────────────────────────────────
+
+   Unified names resolve across iOS HIG + Material Design 3:
+
+   Token                 rem      iOS HIG role      M3 role
+   ───────────────────── ──────   ────────────────  ─────────────────
+   --text-display-xl     3.000    —                 Display Large
+   --text-display-lg     2.500    —                 Display Medium
+   --text-display        2.125    Large Title 34px  Display Small
+   --text-title-1        1.750    Title 1     28px  Headline Large
+   --text-title-2        1.375    Title 2     22px  Headline Medium
+   --text-title-3        1.250    Title 3     20px  Headline Small
+   --text-title-4        1.125    —                 Title Large
+   --text-headline       1.063    Headline    17px  Title Medium
+   --text-body-lg        1.063    Body        17px  Body Large
+   --text-body           1.000    Callout     16px  Body Medium  ← anchor
+   --text-body-sm        0.938    Subhead     15px  Body Small
+   --text-label-lg       0.875    —                 Label Large
+   --text-label          0.813    Footnote    13px  Label Medium
+   --text-caption        0.750    Caption 1   12px  Label Small
+   --text-caption-sm     0.688    Caption 2   11px  —
+   --text-micro          0.625    —                 — (watch only)
+
+   Computed px at each root:
+   Token            12px  14px  15px  16px  17px  18px  19px  20px  21px  24px
+   ─────────────── ───── ───── ───── ───── ───── ───── ───── ───── ───── ─────
+   display-xl       36    42    45    48    51    54    57    60    63    72
+   display-lg       30    35    38    40    43    45    48    50    53    60
+   display          26    30    32    34    36    38    40    43    45    51
+   title-1          21    25    26    28    30    32    33    35    37    42
+   title-2          17    19    21    22    23    25    26    28    29    33
+   title-3          15    18    19    20    21    23    24    25    26    30
+   title-4          14    16    17    18    19    20    21    23    24    27
+   headline         13    15    16    17    18    19    20    21    22    26
+   body-lg          13    15    16    17    18    19    20    21    22    26
+   body             12    14    15    16    17    18    19    20    21    24  ← anchor
+   body-sm          11    13    14    15    16    17    18    19    20    23
+   label-lg         11    12    13    14    15    16    17    18    18    21
+   label            10    11    12    13    14    15    15    16    17    20
+   caption           9    11    11    12    13    14    14    15    16    18
+   caption-sm        8    10    10    11    12    12    13    14    14    17
+   micro             8     9     9    10    11    11    12    13    13    15
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --text-display-xl:  3.000rem;
+  --text-display-lg:  2.500rem;
+  --text-display:     2.125rem;
+  --text-title-1:     1.750rem;
+  --text-title-2:     1.375rem;
+  --text-title-3:     1.250rem;
+  --text-title-4:     1.125rem;
+  --text-headline:    1.063rem;
+  --text-body-lg:     1.063rem;
+  --text-body:        1.000rem;   /* ← 1rem anchor */
+  --text-body-sm:     0.938rem;
+  --text-label-lg:    0.875rem;
+  --text-label:       0.813rem;
+  --text-caption:     0.750rem;
+  --text-caption-sm:  0.688rem;
+  --text-micro:       0.625rem;   /* wearable / badge text */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §4  LINE-HEIGHT TOKENS
+   ─────────────────────────────────────────────────────────────
+   Unitless ratios — multiply against font-size automatically.
+
+   display  →  tight    (large text needs less air)
+   titles   →  snug
+   headlines→  heading
+   body     →  reading  (most comfortable for paragraphs)
+   labels   →  ui       (compact for buttons, tags)
+   captions →  caption
+   watch    →  watch    (very tight, every pixel counts)
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --leading-watch:    1.00;   /* wearable — zero breathing room */
+  --leading-tight:    1.08;   /* display-xl, display-lg        */
+  --leading-display:  1.12;   /* display                       */
+  --leading-snug:     1.20;   /* title-1                       */
+  --leading-title:    1.25;   /* title-2, title-3              */
+  --leading-heading:  1.35;   /* headline, title-4             */
+  --leading-reading:  1.60;   /* body-lg, body (paragraphs)    */
+  --leading-compact:  1.50;   /* body-sm (tighter paragraphs)  */
+  --leading-ui:       1.40;   /* label-lg, label               */
+  --leading-caption:  1.35;   /* caption, caption-sm           */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §5  LETTER-SPACING TOKENS
+   ─────────────────────────────────────────────────────────────
+   em-based — scale with font-size automatically.
+
+   Apple HIG uses named tokens; M3 uses exact em values.
+   These are harmonised midpoints.
+
+   display   →  tight negative  (large text optically closer)
+   titles    →  slight negative
+   body      →  zero            (most readable)
+   labels    →  slight positive (improves legibility at small)
+   captions  →  wider positive
+   overline  →  wide positive + uppercase
+   watch     →  wider still     (legibility on tiny screens)
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --tracking-display:   -0.025em;   /* display-xl, display-lg  */
+  --tracking-tight:     -0.018em;   /* display                 */
+  --tracking-title:     -0.010em;   /* title-1                 */
+  --tracking-normal:     0.000em;   /* title-2 → body          */
+  --tracking-label:      0.010em;   /* label-lg, label         */
+  --tracking-caption:    0.025em;   /* caption                 */
+  --tracking-overline:   0.060em;   /* overline (+ uppercase)  */
+  --tracking-watch:      0.040em;   /* wearable legibility     */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §6  FONT-WEIGHT TOKENS
+   ─────────────────────────────────────────────────────────────
+   iOS and Android both support 100–900 variable weight axes
+   on system fonts. Named tokens map to standard values.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --weight-thin:        100;
+  --weight-extralight:  200;
+  --weight-light:       300;
+  --weight-regular:     400;   /* body text                    */
+  --weight-medium:      500;   /* labels, callouts             */
+  --weight-semibold:    600;   /* headlines, titles            */
+  --weight-bold:        700;   /* display, emphasis            */
+  --weight-extrabold:   800;   /* hero display (rare)          */
+  --weight-black:       900;   /* maximum impact (very rare)   */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §7  SPATIAL TOKENS — spacing, radius, touch targets
+   ─────────────────────────────────────────────────────────────
+   All in rem so they scale with the root font size.
+   This means component padding expands naturally on larger
+   screens without any media query overrides.
+
+   Spacing scale: 0.25rem base unit (4px at 16px root).
+   Each step doubles or adds one unit.
+
+   Touch target minimums:
+     Apple HIG: 44×44pt minimum
+     Material:  48×48dp minimum
+     WCAG 2.5.5: 44×44px minimum
+   → Use --target-min (2.75rem = 44px) everywhere interactive.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+
+  /* — Base unit — */
+  --space-unit:     0.25rem;   /* 4px at 16px root */
+
+  /* — Spacing scale — */
+  --space-0:        0rem;                        /* 0px   */
+  --space-1:        calc(var(--space-unit) * 1); /* 4px   */
+  --space-2:        calc(var(--space-unit) * 2); /* 8px   */
+  --space-3:        calc(var(--space-unit) * 3); /* 12px  */
+  --space-4:        calc(var(--space-unit) * 4); /* 16px  */
+  --space-5:        calc(var(--space-unit) * 5); /* 20px  */
+  --space-6:        calc(var(--space-unit) * 6); /* 24px  */
+  --space-8:        calc(var(--space-unit) * 8); /* 32px  */
+  --space-10:       calc(var(--space-unit) * 10);/* 40px  */
+  --space-12:       calc(var(--space-unit) * 12);/* 48px  */
+  --space-16:       calc(var(--space-unit) * 16);/* 64px  */
+  --space-20:       calc(var(--space-unit) * 20);/* 80px  */
+  --space-24:       calc(var(--space-unit) * 24);/* 96px  */
+  --space-32:       calc(var(--space-unit) * 32);/* 128px */
+
+  /* — Semantic spacing — */
+  --space-xs:       var(--space-1);   /* 4px  — icon gap, tight insets    */
+  --space-sm:       var(--space-2);   /* 8px  — component internal pad     */
+  --space-md:       var(--space-4);   /* 16px — standard component padding */
+  --space-lg:       var(--space-6);   /* 24px — section padding            */
+  --space-xl:       var(--space-8);   /* 32px — section gap                */
+  --space-2xl:      var(--space-12);  /* 48px — layout region gap          */
+  --space-3xl:      var(--space-16);  /* 64px — hero spacing               */
+
+  /* — Touch / tap targets — */
+  --target-min:     2.75rem;   /* 44px — WCAG + Apple HIG minimum  */
+  --target-md:      3.00rem;   /* 48px — Material Design minimum   */
+  --target-lg:      3.50rem;   /* 56px — comfortable mobile target */
+  --target-xl:      4.00rem;   /* 64px — prominent CTA             */
+  --target-watch:   2.00rem;   /* 32px — wearable (constrained)    */
+
+  /* — Border radius — */
+  --radius-none:    0rem;
+  --radius-xs:      0.125rem;  /* 2px  — subtle chip/tag           */
+  --radius-sm:      0.25rem;   /* 4px  — input, button             */
+  --radius-md:      0.5rem;    /* 8px  — card, sheet               */
+  --radius-lg:      0.75rem;   /* 12px — modal, popover            */
+  --radius-xl:      1.0rem;    /* 16px — bottom sheet, large card  */
+  --radius-2xl:     1.5rem;    /* 24px — full-bleed panels         */
+  --radius-full:    9999rem;   /* pill — tags, avatars, toggles    */
+
+  /* — Border width — */
+  --border-hairline: 0.5px;    /* subpixel — Apple style dividers  */
+  --border-thin:     1px;      /* standard border                  */
+  --border-md:       2px;      /* focus ring, emphasis             */
+  --border-thick:    4px;      /* accent bar                       */
+
+  /* — Icon sizes — */
+  --icon-xs:        0.75rem;   /* 12px — inline glyph              */
+  --icon-sm:        1.0rem;    /* 16px — compact UI                */
+  --icon-md:        1.25rem;   /* 20px — standard icon             */
+  --icon-lg:        1.5rem;    /* 24px — prominent UI icon         */
+  --icon-xl:        2.0rem;    /* 32px — feature icon              */
+  --icon-2xl:       3.0rem;    /* 48px — illustration icon         */
+  --icon-watch:     1.125rem;  /* 18px — wearable icon             */
+
+  /* — Line length (max-width for readable text) — */
+  --measure-narrow:  30ch;     /* captions, sidebars               */
+  --measure-normal:  66ch;     /* body paragraphs (optimal)        */
+  --measure-wide:    80ch;     /* tables, data-heavy content       */
+  --measure-full:    100%;     /* full bleed                       */
+
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §8  ELEVATION / SHADOW TOKENS
+   ─────────────────────────────────────────────────────────────
+   Material Design 3 + iOS vibrancy-aware shadow levels.
+   Use box-shadow for web; backdrop-filter for iOS glassmorphism.
+
+   Level 0 = flat (no elevation)
+   Level 1 = card resting
+   Level 2 = card raised / menu
+   Level 3 = modal / bottom sheet
+   Level 4 = navigation drawer
+   Level 5 = dialog / alert
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --shadow-0:   none;
+  --shadow-1:   0 1px 2px rgba(0,0,0,0.08),
+                0 1px 3px rgba(0,0,0,0.06);
+  --shadow-2:   0 2px 4px rgba(0,0,0,0.08),
+                0 4px 8px rgba(0,0,0,0.06);
+  --shadow-3:   0 4px 8px rgba(0,0,0,0.10),
+                0 8px 16px rgba(0,0,0,0.08);
+  --shadow-4:   0 8px 16px rgba(0,0,0,0.12),
+                0 16px 32px rgba(0,0,0,0.08);
+  --shadow-5:   0 16px 32px rgba(0,0,0,0.14),
+                0 24px 48px rgba(0,0,0,0.10);
+
+  /* Inner / inset shadows (pressed states) */
+  --shadow-inset-sm: inset 0 1px 2px rgba(0,0,0,0.10);
+  --shadow-inset-md: inset 0 2px 4px rgba(0,0,0,0.12);
+}
+
+/* Dark mode shadows — stronger needed on dark backgrounds */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --shadow-1:  0 1px 2px rgba(0,0,0,0.30),
+                 0 1px 3px rgba(0,0,0,0.20);
+    --shadow-2:  0 2px 4px rgba(0,0,0,0.35),
+                 0 4px 8px rgba(0,0,0,0.25);
+    --shadow-3:  0 4px 8px rgba(0,0,0,0.40),
+                 0 8px 16px rgba(0,0,0,0.30);
+    --shadow-4:  0 8px 16px rgba(0,0,0,0.45),
+                 0 16px 32px rgba(0,0,0,0.35);
+    --shadow-5:  0 16px 32px rgba(0,0,0,0.50),
+                 0 24px 48px rgba(0,0,0,0.40);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §9  Z-INDEX TOKENS
+   ─────────────────────────────────────────────────────────────
+   Named layers prevent z-index wars across components.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --z-below:       -1;
+  --z-base:         0;
+  --z-raised:      10;    /* cards, floating buttons     */
+  --z-dropdown:   100;    /* menus, selects              */
+  --z-sticky:     200;    /* sticky headers              */
+  --z-overlay:    300;    /* dimmer / backdrop           */
+  --z-drawer:     400;    /* side drawer                 */
+  --z-modal:      500;    /* modals, bottom sheets       */
+  --z-popover:    600;    /* tooltips, popovers          */
+  --z-toast:      700;    /* snackbars, toasts           */
+  --z-alert:      800;    /* system alerts               */
+  --z-top:        900;    /* absolute top (dev tools)    */
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §10  MOTION / TRANSITION TOKENS
+   ─────────────────────────────────────────────────────────────
+   Durations and easings from Apple HIG + Material Design 3.
+
+   Duration guidance:
+     micro    → icon swap, checkbox tick
+     fast     → button press, chip select
+     standard → card expand, panel slide
+     slow     → page transition, large modal
+     enter    → elements entering the screen (slightly slower)
+     exit     → elements leaving (slightly faster — snappy)
+
+   Easing:
+     standard  → general movement (M3 standard easing)
+     decelerate→ elements entering (slow at end)
+     accelerate→ elements leaving  (fast at end)
+     spring    → playful bounce (iOS-style)
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* — Durations — */
+  --duration-micro:      50ms;
+  --duration-fast:      100ms;
+  --duration-standard:  200ms;
+  --duration-slow:      300ms;
+  --duration-enter:     250ms;
+  --duration-exit:      150ms;
+  --duration-page:      400ms;
+
+  /* — Easing curves — */
+  --ease-standard:      cubic-bezier(0.2, 0.0, 0.0, 1.0);  /* M3 standard  */
+  --ease-decelerate:    cubic-bezier(0.0, 0.0, 0.2, 1.0);  /* entering     */
+  --ease-accelerate:    cubic-bezier(0.4, 0.0, 1.0, 1.0);  /* leaving      */
+  --ease-spring:        cubic-bezier(0.34, 1.56, 0.64, 1.0);/* iOS-spring  */
+  --ease-linear:        linear;
+
+  /* — Shorthand transitions — */
+  --transition-fast:    var(--duration-fast)     var(--ease-standard);
+  --transition-std:     var(--duration-standard)  var(--ease-standard);
+  --transition-slow:    var(--duration-slow)      var(--ease-standard);
+  --transition-enter:   var(--duration-enter)     var(--ease-decelerate);
+  --transition-exit:    var(--duration-exit)      var(--ease-accelerate);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §11  SEMANTIC ROLE CLASSES
+   ─────────────────────────────────────────────────────────────
+   Each class is a complete text style bundle:
+   font-family + size + weight + line-height + letter-spacing.
+   Apply to any HTML element. Override weight with §13 utilities.
+   ───────────────────────────────────────────────────────────── */
+
+/* — Display — hero / marketing text — */
+
+.text-display-xl {
+  font-family:    var(--font-display);
+  font-size:      var(--text-display-xl);
+  font-weight:    var(--weight-bold);
+  line-height:    var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.text-display-lg {
+  font-family:    var(--font-display);
+  font-size:      var(--text-display-lg);
+  font-weight:    var(--weight-bold);
+  line-height:    var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.text-display {
+  font-family:    var(--font-display);
+  font-size:      var(--text-display);
+  font-weight:    var(--weight-bold);
+  line-height:    var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* — Titles — section / page titles — */
+
+.text-title-1 {
+  font-family:    var(--font-display);
+  font-size:      var(--text-title-1);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-snug);
+  letter-spacing: var(--tracking-title);
+}
+
+.text-title-2 {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-title-2);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-title);
+  letter-spacing: var(--tracking-normal);
+}
+
+.text-title-3 {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-title-3);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-title);
+  letter-spacing: var(--tracking-normal);
+}
+
+.text-title-4 {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-title-4);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-heading);
+  letter-spacing: var(--tracking-normal);
+}
+
+/* — Headline — card headers, list section titles — */
+
+.text-headline {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-headline);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-heading);
+  letter-spacing: var(--tracking-normal);
+}
+
+/* — Body — reading content — */
+
+.text-body-lg {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-body-lg);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-reading);
+  letter-spacing: var(--tracking-normal);
+}
+
+.text-body {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-body);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-reading);
+  letter-spacing: var(--tracking-normal);
+}
+
+.text-body-sm {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-body-sm);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-compact);
+  letter-spacing: var(--tracking-normal);
+}
+
+/* — Label — buttons, tags, UI controls — */
+
+.text-label-lg {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-label-lg);
+  font-weight:    var(--weight-medium);
+  line-height:    var(--leading-ui);
+  letter-spacing: var(--tracking-label);
+}
+
+.text-label {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-label);
+  font-weight:    var(--weight-medium);
+  line-height:    var(--leading-ui);
+  letter-spacing: var(--tracking-label);
+}
+
+/* — Caption — metadata, timestamps, helper text — */
+
+.text-caption {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-caption);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+}
+
+.text-caption-sm {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-caption-sm);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+}
+
+/* — Overline — eyebrow text above titles — */
+
+.text-overline {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-caption-sm);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-caption);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+}
+
+/* — Micro — badges, notification counts, watch text — */
+
+.text-micro {
+  font-family:    var(--font-compact);
+  font-size:      var(--text-micro);
+  font-weight:    var(--weight-medium);
+  line-height:    var(--leading-watch);
+  letter-spacing: var(--tracking-watch);
+}
+
+/* — Monospaced — code, metrics, data tables — */
+
+.text-mono {
+  font-family:    var(--font-mono);
+  font-size:      var(--text-body-sm);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-ui);
+  letter-spacing: var(--tracking-normal);
+}
+
+.text-mono-sm {
+  font-family:    var(--font-mono);
+  font-size:      var(--text-caption);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-caption);
+  letter-spacing: var(--tracking-normal);
+}
+
+/* — Watch-specific — constrained wearable screen — */
+
+.text-watch-title {
+  font-family:    var(--font-compact);
+  font-size:      var(--text-title-3);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-watch);
+  letter-spacing: var(--tracking-watch);
+}
+
+.text-watch-body {
+  font-family:    var(--font-compact);
+  font-size:      var(--text-body-sm);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-caption);
+  letter-spacing: var(--tracking-watch);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §12  HTML ELEMENT DEFAULTS
+   ─────────────────────────────────────────────────────────────
+   Maps semantic HTML to the scale automatically.
+   Uses role classes under the hood for single source of truth.
+   ───────────────────────────────────────────────────────────── */
+
+/* — Global base — */
+body {
+  font-family:              var(--font-sans);
+  font-size:                var(--text-body);
+  font-weight:              var(--weight-regular);
+  line-height:              var(--leading-reading);
+  letter-spacing:           var(--tracking-normal);
+
+  /* Font rendering — benefits both platforms */
+  -webkit-font-smoothing:   antialiased;
+  -moz-osx-font-smoothing:  grayscale;
+  text-rendering:           optimizeLegibility;
+  font-feature-settings:    "kern" 1, "liga" 1, "calt" 1;
+
+  /* Prevent iOS auto-zoom on input focus */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust:         100%;
+
+  /* Prevent Android tap highlight on interactive elements */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* — Headings — */
+h1 {
+  font-family:    var(--font-display);
+  font-size:      var(--text-display);
+  font-weight:    var(--weight-bold);
+  line-height:    var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+  margin-bottom:  var(--space-4);
+}
+
+h2 {
+  font-size:      var(--text-title-1);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-snug);
+  letter-spacing: var(--tracking-title);
+  margin-bottom:  var(--space-3);
+}
+
+h3 {
+  font-size:      var(--text-title-2);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-title);
+  letter-spacing: var(--tracking-normal);
+  margin-bottom:  var(--space-3);
+}
+
+h4 {
+  font-size:      var(--text-title-3);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-title);
+  letter-spacing: var(--tracking-normal);
+  margin-bottom:  var(--space-2);
+}
+
+h5 {
+  font-size:      var(--text-title-4);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-heading);
+  letter-spacing: var(--tracking-normal);
+  margin-bottom:  var(--space-2);
+}
+
+h6 {
+  font-size:      var(--text-headline);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-heading);
+  letter-spacing: var(--tracking-normal);
+  margin-bottom:  var(--space-2);
+}
+
+/* — Body text — */
+p {
+  font-size:      var(--text-body);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-reading);
+  max-width:      var(--measure-normal);
+  margin-bottom:  var(--space-4);
+}
+
+p:last-child { margin-bottom: 0; }
+
+/* — Inline text — */
+small {
+  font-size:      var(--text-caption);
+  line-height:    var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+}
+
+strong, b {
+  font-weight:    var(--weight-semibold);
+}
+
+em, i {
+  font-style:     italic;
+}
+
+/* — Links — */
+a {
+  text-decoration:          underline;
+  text-underline-offset:    0.15em;
+  text-decoration-thickness: 1px;
+  transition: opacity var(--transition-fast);
+}
+
+a:hover { opacity: 0.7; }
+
+/* — Lists — */
+ul, ol {
+  font-size:      var(--text-body);
+  line-height:    var(--leading-reading);
+  padding-left:   var(--space-6);
+  margin-bottom:  var(--space-4);
+}
+
+li { margin-bottom: var(--space-1); }
+
+/* — Form elements — */
+label {
+  display:        block;
+  font-size:      var(--text-label);
+  font-weight:    var(--weight-medium);
+  line-height:    var(--leading-ui);
+  letter-spacing: var(--tracking-label);
+  margin-bottom:  var(--space-1);
+}
+
+input,
+textarea,
+select {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-body);
+  font-weight:    var(--weight-regular);
+  line-height:    var(--leading-ui);
+  min-height:     var(--target-min);
+  padding:        var(--space-3) var(--space-4);
+  border-radius:  var(--radius-md);
+  border:         var(--border-thin) solid;
+  transition:     border-color var(--transition-fast),
+                  box-shadow   var(--transition-fast);
+}
+
+button {
+  font-family:    var(--font-sans);
+  font-size:      var(--text-label-lg);
+  font-weight:    var(--weight-medium);
+  line-height:    var(--leading-ui);
+  letter-spacing: var(--tracking-label);
+  min-height:     var(--target-min);
+  padding:        var(--space-3) var(--space-6);
+  border-radius:  var(--radius-md);
+  cursor:         pointer;
+  transition:     background var(--transition-fast),
+                  transform  var(--duration-micro) var(--ease-spring),
+                  box-shadow var(--transition-fast);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* — Code — */
+code {
+  font-family:    var(--font-mono);
+  font-size:      0.875em;          /* relative to surrounding text */
+  padding:        0.1em 0.35em;
+  border-radius:  var(--radius-xs);
+}
+
+pre {
+  font-family:    var(--font-mono);
+  font-size:      var(--text-body-sm);
+  line-height:    var(--leading-compact);
+  padding:        var(--space-4);
+  border-radius:  var(--radius-md);
+  overflow-x:     auto;
+}
+
+pre code {
+  font-size:      inherit;
+  padding:        0;
+  background:     none;
+}
+
+/* — Blockquote — */
+blockquote {
+  font-size:      var(--text-body-lg);
+  font-style:     italic;
+  line-height:    var(--leading-reading);
+  padding-left:   var(--space-6);
+  border-left:    var(--border-thick) solid;
+  margin-bottom:  var(--space-4);
+}
+
+/* — Table — */
+table {
+  font-size:      var(--text-body-sm);
+  line-height:    var(--leading-ui);
+  border-collapse: collapse;
+  width:          100%;
+}
+
+th {
+  font-size:      var(--text-label);
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-align:     left;
+  padding:        var(--space-3) var(--space-4);
+}
+
+td {
+  padding:        var(--space-3) var(--space-4);
+}
+
+/* — HR — */
+hr {
+  border:         none;
+  border-top:     var(--border-hairline) solid;
+  margin:         var(--space-6) 0;
+}
+
+/* — Figure / caption — */
+figcaption {
+  font-size:      var(--text-caption);
+  line-height:    var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+  margin-top:     var(--space-2);
+}
+
+/* — Keyboard shortcut — */
+kbd {
+  font-family:    var(--font-mono);
+  font-size:      var(--text-caption);
+  font-weight:    var(--weight-medium);
+  padding:        0.1em 0.4em;
+  border-radius:  var(--radius-xs);
+  border:         var(--border-thin) solid;
+  box-shadow:     var(--shadow-1);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §13  UTILITY MODIFIERS
+   ─────────────────────────────────────────────────────────────
+   Compose with role classes for one-off overrides.
+   ───────────────────────────────────────────────────────────── */
+
+/* — Weight — */
+.weight-thin        { font-weight: var(--weight-thin);       }
+.weight-light       { font-weight: var(--weight-light);      }
+.weight-regular     { font-weight: var(--weight-regular);    }
+.weight-medium      { font-weight: var(--weight-medium);     }
+.weight-semibold    { font-weight: var(--weight-semibold);   }
+.weight-bold        { font-weight: var(--weight-bold);       }
+.weight-black       { font-weight: var(--weight-black);      }
+
+/* — Alignment — */
+.text-left          { text-align: left;    }
+.text-center        { text-align: center;  }
+.text-right         { text-align: right;   }
+
+/* — Transform — */
+.text-uppercase     { text-transform: uppercase;   }
+.text-lowercase     { text-transform: lowercase;   }
+.text-capitalize    { text-transform: capitalize;  }
+.text-normal-case   { text-transform: none;        }
+
+/* — Truncation — */
+.text-truncate {
+  overflow:       hidden;
+  text-overflow:  ellipsis;
+  white-space:    nowrap;
+}
+
+.text-clamp-2 {
+  display:            -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow:           hidden;
+}
+
+.text-clamp-3 {
+  display:            -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow:           hidden;
+}
+
+/* — Measure / max-width — */
+.measure-narrow     { max-width: var(--measure-narrow); }
+.measure-normal     { max-width: var(--measure-normal); }
+.measure-wide       { max-width: var(--measure-wide);   }
+
+/* — Font family — */
+.font-sans          { font-family: var(--font-sans);    }
+.font-display       { font-family: var(--font-display); }
+.font-mono          { font-family: var(--font-mono);    }
+.font-rounded       { font-family: var(--font-rounded); }
+.font-compact       { font-family: var(--font-compact); }
+
+/* — Italic — */
+.italic             { font-style: italic;  }
+.not-italic         { font-style: normal;  }
+
+/* — Tabular numbers — (data tables, timers) — */
+.tabular-nums       { font-variant-numeric: tabular-nums; }
+.oldstyle-nums      { font-variant-numeric: oldstyle-nums; }
+
+
+/* ─────────────────────────────────────────────────────────────
+   §14  ACCESSIBILITY MEDIA QUERIES
+   ───────────────────────────────────────────────────────────── */
+
+/* — Reduced motion — kill all transitions and animations — */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+    scroll-behavior:           auto   !important;
+  }
+}
+
+/* — Forced colors / high contrast mode (Windows) — */
+@media (forced-colors: active) {
+  * {
+    /* Let the OS palette take full control */
+    forced-color-adjust: auto;
+  }
+}
+
+/* — Dark mode font smoothing tweak — */
+/*
+   antialiased makes fonts appear lighter.
+   On dark backgrounds that's fine, but on very dark surfaces
+   auto-smoothing lets the OS render correctly.
+*/
+@media (prefers-color-scheme: dark) {
+  body {
+    -webkit-font-smoothing:  auto;
+    -moz-osx-font-smoothing: auto;
+  }
+}
+
+/* — Increased contrast — */
+@media (prefers-contrast: more) {
+  body {
+    font-weight: var(--weight-medium); /* bump base weight for legibility */
+  }
+  strong, b {
+    font-weight: var(--weight-bold);
+  }
+}
+
+/* — Print — */
+@media print {
+  html {
+    font-size: 87.5%; /* 14px — comfortable for print */
+  }
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust:         exact;
+    max-width:                  var(--measure-normal);
+    margin: 0 auto;
+  }
+  h1 { font-size: var(--text-title-1); }  /* smaller for print */
+  h2 { font-size: var(--text-title-2); }
+  a::after { content: " (" attr(href) ")"; font-size: var(--text-caption); }
+  pre, blockquote { page-break-inside: avoid; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   §15  QUICK REFERENCE (comments only — no CSS output)
+   ─────────────────────────────────────────────────────────────
+
+   BREAKPOINT SUMMARY
+   ══════════════════════════════════════════════════════════════
+   Viewport        Root %    1rem   Device examples
+   ─────────────────────────────────────────────────────────────
+   ≤ 200px          75%      12px   Apple Watch, Wear OS
+   201–374px        87.5%    14px   iPhone SE, small Android
+   375–389px        93.75%   15px   iPhone 14/15, Pixel 8
+   390–599px       100%      16px   iPhone Pro Max, Android XL
+   600–767px       106.25%   17px   Galaxy Z Fold half-open
+   768–1023px      112.5%    18px   iPad mini, iPad Air, tablets
+   1024–1279px     118.75%   19px   iPad Pro 12.9", ChromeOS
+   1280–1439px     125%      20px   MacBook, Windows laptop
+   1440–1919px     131.25%   21px   iMac, wide monitors
+   1920px+         150%      24px   4K, ultrawide, TV browsers
+
+   TYPE SCALE COMPUTED PX TABLE
+   ══════════════════════════════════════════════════════════════
+   Token           rem    12   14   15   16   17   18   19   20   21   24
+   ─────────────── ──── ──── ──── ──── ──── ──── ──── ──── ──── ──── ────
+   display-xl     3.000  36   42   45   48   51   54   57   60   63   72
+   display-lg     2.500  30   35   38   40   43   45   48   50   53   60
+   display        2.125  26   30   32   34   36   38   40   43   45   51
+   title-1        1.750  21   25   26   28   30   32   33   35   37   42
+   title-2        1.375  17   19   21   22   23   25   26   28   29   33
+   title-3        1.250  15   18   19   20   21   23   24   25   26   30
+   title-4        1.125  14   16   17   18   19   20   21   23   24   27
+   headline       1.063  13   15   16   17   18   19   20   21   22   26
+   body-lg        1.063  13   15   16   17   18   19   20   21   22   26
+   body ←anchor   1.000  12   14   15   16   17   18   19   20   21   24
+   body-sm        0.938  11   13   14   15   16   17   18   19   20   23
+   label-lg       0.875  11   12   13   14   15   16   17   18   18   21
+   label          0.813  10   11   12   13   14   15   15   16   17   20
+   caption        0.750   9   11   11   12   13   14   14   15   16   18
+   caption-sm     0.688   8   10   10   11   12   12   13   14   14   17
+   micro          0.625   8    9    9   10   11   11   12   13   13   15
+
+   IOS HIG ↔ M3 ↔ UNIFIED ROLE MAPPING
+   ══════════════════════════════════════════════════════════════
+   Unified token    iOS HIG name       Material Design 3 name
+   ─────────────── ─────────────────  ──────────────────────────
+   display-xl       —                  Display Large
+   display-lg       —                  Display Medium
+   display          Large Title        Display Small
+   title-1          Title 1            Headline Large
+   title-2          Title 2            Headline Medium
+   title-3          Title 3            Headline Small
+   title-4          —                  Title Large
+   headline         Headline           Title Medium
+   body-lg          Body               Body Large
+   body             Callout            Body Medium
+   body-sm          Subhead            Body Small
+   label-lg         —                  Label Large
+   label            Footnote           Label Medium
+   caption          Caption 1          Label Small
+   caption-sm       Caption 2          —
+   micro            —                  —  (wearable only)
+
+   SPATIAL TOKENS AT KEY ROOT SIZES
+   ══════════════════════════════════════════════════════════════
+   Token        rem     12px  16px  18px  20px  24px
+   ──────────── ──────  ────  ────  ────  ────  ────
+   space-1      0.25     3     4     5     5     6
+   space-2      0.50     6     8     9    10    12
+   space-4      1.00    12    16    18    20    24
+   space-6      1.50    18    24    27    30    36
+   space-8      2.00    24    32    36    40    48
+   target-min   2.75    33    44    50    55    66  (≥44 from 16px up ✓)
+   target-md    3.00    36    48    54    60    72  (≥48 from 16px up ✓)
+   icon-md      1.25    15    20    23    25    30
+
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── End of file ─────────────────────────────────────────── */

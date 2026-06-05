@@ -1,0 +1,137 @@
+/* author : vjlang team */
+
+:root {
+  --docs-bg: #f4f0e8;
+  --docs-ink: #1e1d1a;
+  --docs-muted: #6d675e;
+  --docs-panel: rgba(255, 252, 245, 0.88);
+  --docs-line: rgba(30, 29, 26, 0.14);
+  --docs-accent: #c45b12;
+  --docs-shadow: 0 24px 80px rgba(42, 32, 18, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: var(--docs-ink);
+  background:
+    radial-gradient(circle at top left, rgba(196, 91, 18, 0.14), transparent 28rem),
+    linear-gradient(180deg, #fbf8f2 0%, var(--docs-bg) 100%);
+}
+
+.docs-shell {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 3rem 0 5rem;
+}
+
+.docs-hero,
+.docs-section,
+.demo-card,
+.demo-shell {
+  background: var(--docs-panel);
+  border: 1px solid var(--docs-line);
+  border-radius: 1.5rem;
+  box-shadow: var(--docs-shadow);
+}
+
+.docs-hero {
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.docs-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.docs-section {
+  padding: 1.5rem;
+}
+
+.docs-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--docs-accent);
+  font-size: 0.875rem;
+}
+
+.docs-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.docs-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: #1e1d1a;
+  color: #fff;
+  text-decoration: none;
+}
+
+.docs-link.secondary {
+  background: transparent;
+  color: var(--docs-ink);
+  border: 1px solid var(--docs-line);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  padding: 0.85rem 0.9rem;
+  border-bottom: 1px solid var(--docs-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--docs-muted);
+  font-weight: 600;
+}
+
+.demo-shell {
+  padding: 2rem;
+  width: min(1120px, calc(100% - 2rem));
+  margin: 3rem auto 5rem;
+}
+
+.demo-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.demo-card {
+  padding: 1.25rem;
+}
+
+.demo-utilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.demo-chip {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--docs-line);
+  border-radius: 999px;
+  background: white;
+}
+
+@media (max-width: 720px) {
+  .docs-shell,
+  .demo-shell {
+    width: min(100% - 1rem, 1120px);
+  }
+}

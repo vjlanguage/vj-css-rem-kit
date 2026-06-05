@@ -1,0 +1,58 @@
+{
+  "name": "@vjlanguage/css-rem-kit",
+  "version": "0.1.0",
+  "description": "Responsive typography and spacing infrastructure derived from a canonical CSS spec.",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./auto-rem": {
+      "types": "./dist/auto-rem.d.ts",
+      "default": "./dist/auto-rem.js"
+    },
+    "./units": {
+      "types": "./dist/units.d.ts",
+      "default": "./dist/units.js"
+    },
+    "./generators": {
+      "types": "./dist/generators.d.ts",
+      "default": "./dist/generators.js"
+    },
+    "./react": {
+      "types": "./dist/adapters/react.d.ts",
+      "default": "./dist/adapters/react.js"
+    },
+    "./vue": {
+      "types": "./dist/adapters/vue.d.ts",
+      "default": "./dist/adapters/vue.js"
+    },
+    "./styles/responsive.css": "./dist/styles/responsive.css",
+    "./styles/responsive.scss": "./dist/styles/responsive.scss",
+    "./styles/responsive.less": "./dist/styles/responsive.less",
+    "./typography-universal.css": "./dist/typography-universal.css"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist .tmp-build",
+    "build:ts": "npx -y -p typescript@5.5.4 tsc -p tsconfig.build.json",
+    "build:styles": "node scripts/generate-artifacts.mjs dist/index.js dist/styles",
+    "build:assets": "node scripts/copy-package-assets.mjs",
+    "build:docs": "node scripts/generate-docs.mjs dist/index.js docs",
+    "build": "npm run clean && npm run build:ts && npm run build:styles && npm run build:assets && npm run build:docs",
+    "check": "npx -y -p typescript@5.5.4 tsc --noEmit -p tsconfig.json",
+    "test": "npm run build && node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}

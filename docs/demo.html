@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@vjlanguage/css-rem-kit Demo</title>
+    <link rel="stylesheet" href="./assets/responsive.css" />
+    <link rel="stylesheet" href="./assets/docs.css" />
+  </head>
+  <body>
+    <main class="demo-shell">
+      <div class="docs-kicker">Generated Demo</div>
+      <h1 class="text-display">Semantic Roles, Defaults, Utilities</h1>
+      <p class="text-body">
+        This page uses the generated responsive CSS directly, so typography roles, HTML defaults, utilities, and accessibility layers all come from the package build output.
+      </p>
+
+      <section class="demo-stack">
+        <article class="demo-card">
+          <div class="text-overline">Typography Roles</div>
+          <div class="text-display-lg">Display Large</div>
+          <div class="text-title-1">Title One</div>
+          <div class="text-headline">Headline</div>
+          <p class="text-body">Body text scales by root tier and stays tied to the canonical token model.</p>
+          <div class="text-caption">Caption metadata</div>
+        </article>
+
+        <article class="demo-card">
+          <div class="text-overline">HTML Defaults</div>
+          <h2>Default Heading Two</h2>
+          <p>
+            Paragraphs, <strong>strong text</strong>, <em>emphasis</em>, <a href="https://example.com">links</a>,
+            and <code>inline code</code> all inherit generated defaults.
+          </p>
+          <blockquote>Blockquotes, tables, form controls, and preformatted code also come from the same generated baseline.</blockquote>
+        </article>
+
+        <article class="demo-card">
+          <div class="text-overline">Utilities</div>
+          <div class="demo-utilities">
+            <span class="demo-chip weight-bold">.weight-bold</span>
+            <span class="demo-chip text-uppercase">.text-uppercase</span>
+            <span class="demo-chip font-mono">.font-mono</span>
+            <span class="demo-chip tabular-nums">123456</span>
+            <span class="demo-chip italic">.italic</span>
+          </div>
+          <p class="text-body-sm text-truncate">This line shows the utility layer working on top of the semantic token system inside the generated demo page.</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
