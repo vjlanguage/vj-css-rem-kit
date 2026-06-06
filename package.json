@@ -57,7 +57,7 @@
     "url": "https://github.com/vjlanguage/vj-css-rem-kit.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "typescript": "^5.5.4"

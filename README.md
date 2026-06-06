@@ -21,7 +21,7 @@ This repo currently has eleven layers:
 8. `tests/*`
    Build-surface tests that validate the shipped helpers and generators.
 9. `.github/workflows/*`
-   CI automation that runs type checks, tests, and GitHub Packages publish flows.
+   CI automation that runs type checks, tests, and npm publish flows.
 10. `src/spec/reference.ts`
    Structured quick-reference metadata for breakpoints, computed type sizes, role mappings, and spatial conversions from `§15`.
 11. `docs/*`
@@ -33,13 +33,12 @@ Install:
 npm install @vjlanguage/css-rem-kit
 ```
 
-GitHub Packages publishing setup:
+npm publishing setup:
 
-- package name uses the GitHub scope: `@vjlanguage/css-rem-kit`
+- package name uses the npm scope: `@vjlanguage/css-rem-kit`
 - repository URL is linked in `package.json`
-- `publishConfig.registry` points to `https://npm.pkg.github.com`
-- local `.npmrc` maps `@vjlanguage` to GitHub Packages
-- `.github/workflows/publish.yml` publishes with `GITHUB_TOKEN`
+- `publishConfig.registry` points to `https://registry.npmjs.org/`
+- `.github/workflows/publish.yml` publishes with `NPM_TOKEN`
 
 ## Auto Rem Specification
 
@@ -211,7 +210,7 @@ npm test
 Continuous integration:
 
 - `.github/workflows/ci.yml` runs `npm run check` and `npm test`
-- `.github/workflows/publish.yml` publishes on GitHub release publish or manual dispatch
+- `.github/workflows/publish.yml` publishes to npm on GitHub release publish or manual dispatch
 
 ## Framework Support
 
